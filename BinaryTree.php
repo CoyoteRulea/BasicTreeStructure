@@ -71,4 +71,37 @@ class BinaryTree {
 
         return $sum;
     }
+
+    public function printTree() {
+
+        if (!isset($this->root)) {
+            echo "Throwing dirt on a seed only increases its value.\n
+                  =================================================\n
+                                        *\n  
+                                    *     *\n
+                                        *";
+        }
+
+        $depth = $this->getDepth();
+
+        $lines = [];
+        $this->createNodesMatrix($this->root, $depth, $lines);
+/*
+        foreach($lines as $line) {
+            var_dump($line);
+        }
+*/
+        var_dump($lines);
+    }
+
+    public function createNodesMatrix($current, $depth, &$lines, $level = 1, $pos = 0) {
+        $itemMax = 2 ** $depth;
+        $levelPos = 2 ** $level;
+        $currentPos = abs($pos + ($itemMax / $levelPos));
+
+        echo "Max Items: $itemMax Level: $levelPos Current Pos: $currentPos \n";
+        $lines[$level][$currentPos] = $current->value;
+        if (isset($current->left)) $this->createNodesMatrix($current->left, $depth, $lines, $level + 1, $currentPos * -1);
+        if (isset($current->right)) $this->createNodesMatrix($current->right, $depth, $lines, $level + 1, $currentPos); 
+    }
 }
